@@ -111,13 +111,24 @@
 	\newpage
 	\section{Risk analysis}
 		\subsection{Risk analysis}
+			\hfill wat
 			\begin{tabular}{p{30 mm} p{30 mm} p{30 mm} p{30 mm}}
 				\toprule
 					Risk element & Impact (1 to 5) & Likelihood (1 to 5) & Risk factor (I*L) \\
+					\midrule
+					SQL Injection & 5 & 4 & 20 \\
+					\midrule
+					Inappropriate content & 1 & 5 & 5 \\
 				\bottomrule
 			\end{tabular}
 
 		\subsection{Risk mitigation}
+			\subsubsection{SQL Injection}
+				SQL Injections will be dealt with in the manner standard within industry standard practices such as input sanitization
+				and seperation of user input and actual SQL commends. 
+			\subsubsection{Inappropriate conent}
+				Inappropriate content is sure to arise, although hopefully in a jovial manner. Mitigation is left up to moderators and the
+				users themselves.
 
 	\newpage
 	\section{Project Controls}
