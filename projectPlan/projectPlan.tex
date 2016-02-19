@@ -1,4 +1,6 @@
 \documentclass[a4paper, 12pt]{article}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 \usepackage[super]{nth}
 \usepackage{booktabs}
 \usepackage{enumitem}
@@ -38,11 +40,12 @@
 			\end{enumerate}
 	\newpage		
 	\section{Project scope}
-		\subsection{Project devliverables}
+		\subsection{Project deliverables}
 			\begin{enumerate}[label*=\arabic*.]
 				\item Source code for front-end (PHP/HTML).
 				\item Source code for back-end (SQL).
 				\item Full documentation of database (entity relationship, relational schema, functional dependency diagrams etc).
+				\item All documentation required by the module (i.e. weekly meeting minutes, project plan etc.)
 			\end{enumerate}
 		\subsection{Project Boundaries}
 			\subsubsection{In scope}
@@ -54,7 +57,7 @@
 					\item Replies to topics	
 				\end{enumerate}
 			\subsubsection{Out of scope}
-				The blow items will be attempted, should time permit it.
+				The below items will be attempted, should time permit it.
 				\begin{enumerate}[label*=\arabic*.]
 					\item Text editing tools (will attempt to integrate these if possible).
 					\item Github integration.
@@ -86,6 +89,8 @@
 				\item Polished product - \nth{4} April.
 			\end{enumerate}
 		\subsection{Gantt chart and work breakdown structure}
+			\par The gantt chart can be found appended to this document, as including it here would involve
+			scaling the image at a factor such that the original image would be incomprehensible
 	\newpage
 	\section{Project organisation}
 		\subsection{Roles and responsibilities}
@@ -107,7 +112,8 @@
 				\bottomrule
 			\end{tabular}
 
-		\subsection{Staffing char}
+		\subsection{Staffing chart}
+			\includegraphics[width=\textwidth]{staffing.png}
 
 	\newpage
 	\section{Risk analysis}
@@ -161,6 +167,12 @@
 					Final meeting & \nth{28} Mar & Final review of the website with the  \\	
 				\bottomrule
 			\end{tabular}
-
+	\section{Appendix}
+		\subsection{Content}
+			\begin{enumerate}[label*=\arabic*.]
+				\item Requirements document.
+				\item Change log (void, no changes have taken place).
+				\item Compiled minutes.
+			\end{enumerate}
 
 \end{document}
