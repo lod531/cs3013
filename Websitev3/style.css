@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Julius+Sans+One');
+
+body {
+    background-color: #b3ccff;
+    text-align: center;         /* make sure IE centers the page too */
+}
+
+#wrapper {
+    background-color: #fff;
+    width: 1200px;
+    margin: 0 auto;             /* center the page */
+}
+
+#content {
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    background-color: #fff;
+    float: left;
+    font-family: Roboto;
+    padding: 20px 30px;
+    text-align: left;
+    width: 100%;                /* fill up the entire div */
+}
+
+#menu {
+
+    border-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    float: left;
+    border-bottom: none;        /* avoid a double border */
+    clear: both;                /* clear:both makes sure the content div doesn't float next to this one but stays under it */
+    width:100%;
+    height:20px;
+    padding: 0 30px;
+    background-color: #FFF;
+    text-align: left;
+    font-size: 85%;
+}
+
+#menu a:hover {
+    background-color: #009FC1;
+}
+
+#userbar {
+   border-radius: 5 px;
+    background-color: #fff;
+    float: right;
+    width: 250px;
+}
+
+#footer {
+    clear: both;
+}
+
+/* begin table styles */
+table {
+    border-collapse: collapse;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius:5px;
+    width: 75%;
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+table a {
+    color: #000;
+}
+
+table a:hover {
+    color:#003366;
+    text-decoration: none;
+}
+
+th {
+    background-color: #003366;
+    color: #F0F0F0;
+}
+
+td {
+    padding: 5px;
+}
+
+/* Begin font styles */
+h1, #footer {
+    font-size: 200%;
+    font-family: Roboto;
+    color: #000;
+}
+
+h3 {margin: 0 auto; padding: 0;}
+
+/* Menu styles */
+.item {
+    border-radius: 2px;
+    background-color: #00728B;
+    color: #FFF;
+    font-family: Roboto;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.leftpart {
+    width: 70%;
+}
+
+.rightpart {
+    width: 30%;
+}
+
+.small {
+    font-size: 75%;
+    color: #373737;
+}
+#footer {
+    font-size: 65%;
+    padding: 3px 0 0 0;
+}
+
+.topic-post {
+    height: 100px;
+    overflow: auto;
+}
+
+.post-content {
+    padding: 30px;
+}
+
+textarea {
+    width: 500px;
+    height: 200px;
+}
