@@ -21,24 +21,28 @@ else
         $user = $_SESSION['username'];
         $thread_id = $_GET['thread'];
         $content = $_POST['reply_content'];
-        $sql = "INSERT INTO
-                    post( dateOfCreation,
-                          creatorID,
-                          threadParentID,
-                          content
-                          )
-                VALUES (NOW(), '$user', '$thread_id', $content)"; 
-
-        $result = mysql_query($sql);
-
-        if(!$result)
-        {
-            echo 'Your reply has not been submitted, please try again.';
-            echo mysql_error();
-        }
-        else
-        {
-             header("Location: posts.php?thread=" . htmlentities($_GET['thread']) . "");
+        if(empty($content)){
+            echo 'Cannot submit an empty comment. Please enter some text.';
+        } else {
+            $sql = "INSERT INTO
+                        post( dateOfCreation,
+                              creatorID,
+                              threadParentID,
+                              content
+                              )
+                    VALUES (NOW(), '$user', '$thread_id', $content)"; 
+    
+            $result = mysql_query($sql);
+    
+            if(!$result)
+            {
+                echo 'Your reply has not been submitted, please try again.';
+                echo mysql_error();
+            }
+            else
+            {
+                 header("Location: posts.php?thread=" . htmlentities($_GET['thread']) . "");
+            }
         }
     }
 }
