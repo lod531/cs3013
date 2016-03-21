@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.11)  12 MAR 2016 21:26
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.11)  21 MAR 2016 11:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./mar7.tex
-(./mar7.tex
+**./mar14.tex
+(./mar14.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -31,8 +31,8 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enit@toks=\toks15
 \enit@inbox=\box26
 \enitdp@description=\count87
-) (./mar7.aux)
-\openout1 = `mar7.aux'.
+) (./mar14.aux)
+\openout1 = `mar14.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
 LaTeX Font Info:    ... okay on input line 4.
@@ -53,20 +53,20 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./mar7.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./mar14.aux) ) 
 Here is how much of TeX's memory you used:
  502 strings out of 493304
- 7100 string characters out of 6139871
- 59929 words of memory out of 5000000
+ 7109 string characters out of 6139871
+ 61929 words of memory out of 5000000
  4038 multiletter control sequences out of 15000+600000
  5756 words of font info for 21 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 22i,6n,19p,158b,250s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on mar7.pdf (2 pages, 40147 bytes).
+ 22i,6n,19p,159b,252s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on mar14.pdf (2 pages, 41874 bytes).
 PDF statistics:
  23 PDF objects out of 1000 (max. 8388607)
  15 compressed objects within 1 object stream
