@@ -24,6 +24,9 @@ else
         if(empty($content)){
             echo 'Cannot submit an empty comment. Please enter some text.';
         } else {
+            //create connection for real_escape_string; easier way?
+            $connection = mysql_connect("localhost", "root", "");
+            $content = $connection->real_escape_string($content);
             $sql = "INSERT INTO
                         post( dateOfCreation,
                               creatorID,
