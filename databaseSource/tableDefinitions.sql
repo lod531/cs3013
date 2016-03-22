@@ -29,12 +29,13 @@ CREATE TABLE user
 
 CREATE TABLE threads
 (
- 	id int NOT NULL,
+ 	id int NOT NULL AUTO_INCREMENT,
 	dateOfCreation DATETIME NOT NULL,
 	title varchar(255) NOT NULL,
 	parentModuleID varchar(255) NOT NULL,
 	creatorID varchar(32) NOT NULL,
 	threadText varchar(64000) NOT NULL,
+	lastEdited DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY (parentModuleID) REFERENCES yearModule(name),
 	FOREIGN KEY (creatorID) REFERENCES user(username)
@@ -44,9 +45,9 @@ CREATE TABLE threads
 
 CREATE TABLE post
 (
- 	id int NOT NULL,
+ 	id int NOT NULL AUTO_INCREMENT,
 	dateOfCreation DATETIME NOT NULL,
-	lastEdited DATETIME NOT NULL,
+	lastEdited DATETIME,
 	creatorID varchar(32) NOT NULL,
 	threadParentID int NOT NULL,
 	content varchar(64000) NOT NULL,
