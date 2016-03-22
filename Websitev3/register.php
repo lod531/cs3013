@@ -87,20 +87,41 @@ else {
             //the form has been posted without, so save it
             //notice the use of mysql_real_escape_string, keep everything safe!
             //also notice the sha1 function which hashes the password
-            $sql = "INSERT INTO user (username, password, usertitle)
-            VALUES ('$username', '$userpass', '$useremail')";
+            
+            $sqlCheckForUser = "SELECT
+                        username,
+                        password,
+                        usertitle
+                    FROM
+                        user
+                    WHERE
+                        username = '" . mysql_real_escape_string($_POST['username']) . "';
+                        
+            $queryResult = mysql_query($sqlCheckForUser);
+            if(!$queryResult){
+                echo 'An error occured while you were registering :(</br>Please <a href="register.php">try again</a>.';
+            }
+            else if(mysql_num_rows($queryResult) == 0){
+                $sql = "INSERT INTO user (username, password, usertitle)
+                VALUES ('$username', '$userpass', '$useremail')";
 
-            $result = mysql_query($sql);
-            if(!$result)
-            {
-                //something went wrong, display the error
-                echo 'Something went wrong while registering. Please try again later.';
-                //echo mysql_error(); //debugging purposes, uncomment when needed
+                $result = mysql_query($sql);
+                if(!$result)
+                {
+                    //something went wrong, display the error
+                    echo 'Something went wrong while registering. Please try again later.';
+                    //echo mysql_error(); //debugging purposes, uncomment when needed
+                }
+                else
+                {
+                    echo 'Successfully registered. You can now <a href="login.php">sign in</a> and start posting!';
+                }
+            } 
+            else{
+                //needs updating when password change option is created
+                echo 'It appears you are already registered! Try <a href="login.php">logging in</a>.</br>If you have forgotten your password you can change it.';
             }
-            else
-            {
-                echo 'Successfully registered. You can now <a href="login.php">sign in</a> and start posting!';
-            }
+            
         }
     }
 }
