@@ -1,6 +1,5 @@
 <?php
 //signout.php
-include 'connect.php';
 include 'header.php';
 
 echo '<h2>Logout</h2>';

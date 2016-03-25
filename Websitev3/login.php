@@ -1,6 +1,17 @@
 <?php
-include 'connect.php';
 include 'header.php';
+
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
 
 echo '<h2>Login</h2>';
 
@@ -67,7 +78,7 @@ else
                     AND
                         password = '" . sha1($_POST['password']) . "'";
 
-            $result = mysql_query($sql);
+            $result = $mysqli->query($sql);
             if(!$result)
             {
                 //something went wrong, display the error
@@ -79,7 +90,7 @@ else
                 //the query was successfully executed, there are 2 possibilities
                 //1. the query returned data, the user can be signed in
                 //2. the query returned an empty result set, the credentials were wrong
-                if(mysql_num_rows($result) == 0)
+                if($result->num_rows == 0)
                 {
                     echo 'You have supplied a wrong user/password combination. Please <a href="login.php">try again</a>.';
                 }
@@ -89,7 +100,7 @@ else
                     $_SESSION['signed_in'] = true;
 
                     //we also put the user_id and user_name values in the $_SESSION, so we can use it at various pages
-                    while($row = mysql_fetch_assoc($result))
+                    while($row = $result->fetch_assoc())
                     {
                         $_SESSION['username']  = $row['username'];
                         $_SESSION['usertitle'] = $row['usertitle'];

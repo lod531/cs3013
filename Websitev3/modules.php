@@ -1,7 +1,17 @@
 <?php
-//create_cat.php
-include 'connect.php';
 include 'header.php';
+
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
 
 $_GET['module'] = '';
 $year = $_GET['year'];
@@ -15,7 +25,7 @@ $sql = "SELECT
         WHERE
             courseYearID = $year";
 
-$result = mysql_query($sql);
+$result = $mysqli->query($sql);
 
 if(!$result)
 {
@@ -23,7 +33,7 @@ if(!$result)
 }
 else
 {
-    if(mysql_num_rows($result) == 0)
+    if($result->num_rows == 0)
     {
         echo 'No modules created for this year yet.';
     }
@@ -36,7 +46,7 @@ else
                 <th>Last thread</th>
               </tr>';
 
-        while($row = mysql_fetch_assoc($result))
+        while($row = $result->fetch_assoc())
         {
             $module_code = $row['name'];
             echo '<tr>';

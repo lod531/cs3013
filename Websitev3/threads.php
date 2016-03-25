@@ -1,32 +1,43 @@
 <?php
-//create_cat.php
-include 'connect.php';
 include 'header.php';
+
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
 
 $module = $_GET['module'];
 $_GET['thread'] = '';
- 
+
 $sql = "SELECT
             id,
             dateOfCreation,
             title,
             parentModuleID,
             creatorID,
-            threadText
+            threadText,
+            lastEdited
         FROM
             threads
         WHERE
             parentModuleID = $module";
- 
-$result = mysql_query($sql);
- 
+
+$result = $mysqli->query($sql);
+
 if(!$result)
 {
     echo 'The threads for this module could not be displayed, please try again later.';
 }
 else
 {
-    if(mysql_num_rows($result) == 0)
+    if($result->num_rows == 0)
     {
         echo 'No threads in this module yet.';
     }
@@ -37,10 +48,10 @@ else
               <tr>
                 <th>Modules</th>
                 <th>Last reply</th>
-              </tr>'; 
-             
-        while($row = mysql_fetch_assoc($result))
-        {               
+              </tr>';
+
+        while($row = $result->fetch_assoc())
+        {
             $thread_id = $row['id'];
             echo '<tr>';
                 echo '<td class="leftpart">';
@@ -53,6 +64,6 @@ else
         }
     }
 }
- 
+
 include 'footer.php';
 ?>

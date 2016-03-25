@@ -1,7 +1,17 @@
 <?php
-//create_cat.php
-include 'connect.php';
 include 'header.php';
+
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
 
 $thread_id = $_GET['thread'];
 
@@ -14,7 +24,7 @@ $sql = "SELECT
 		WHERE
 			id = $thread_id";
 
-$result = mysql_query($sql);
+$result = $mysqli->query($sql);
 
 if(!$result)
 {
@@ -22,13 +32,13 @@ if(!$result)
 }
 else
 {
-	if(mysql_num_rows($result) == 0)
+	if($result->num_rows == 0)
 	{
 		echo 'This thread doesn&prime;t exist.';
 	}
 	else
 	{
-		while($row = mysql_fetch_assoc($result))
+		while($row = $result->fetch_assoc())
 		{
 			//display post data
 			echo '<table class="thread" border="1">
@@ -47,7 +57,7 @@ else
 					WHERE
 						threadParentID = $thread_id";
 
-			$posts_result = mysql_query($posts_sql);
+			$posts_result = $mysqli->query($posts_sql);
 
 			if(!$posts_result)
 			{
@@ -56,7 +66,7 @@ else
 			else
 			{
 
-				while($posts_row = mysql_fetch_assoc($posts_result))
+				while($posts_row = $posts_result->fetch_assoc())
 				{
 					echo '<tr class="thread-post">
 							<td class="user-post">' . $posts_row['creatorID'] . '<br/>' . date('d-m-Y H:i', strtotime($posts_row['dateOfCreation'])) . '</td>

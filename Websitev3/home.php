@@ -1,26 +1,36 @@
 <?php
-//create_cat.php
-include 'connect.php';
 include 'header.php';
 
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
+
 $_GET['year'] = '';
- 
+
 $sql = "SELECT
             name,
             subtitle,
             numericalYear
         FROM
             courseyear";
- 
-$result = mysql_query($sql);
- 
+
+$result = $mysqli->query($sql);
+
 if(!$result)
 {
     echo 'The course years could not be displayed, please try again later.';
 }
 else
 {
-    if(mysql_num_rows($result) == 0)
+    if($result->num_rows == 0)
     {
         echo 'No course years defined yet.';
     }
@@ -30,10 +40,10 @@ else
         echo '<table border="1">
               <tr>
                 <th>Years</th>
-              </tr>'; 
-             
-        while($row = mysql_fetch_assoc($result))
-        {               
+              </tr>';
+
+        while($row = $result->fetch_assoc())
+        {
             $year = $row['numericalYear'];
             echo '<tr>';
                 echo '<td class="leftpart">';
@@ -43,6 +53,6 @@ else
         }
     }
 }
- 
+
 include 'footer.php';
 ?>

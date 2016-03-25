@@ -1,6 +1,17 @@
 <?php
-include 'connect.php';
 include 'header.php';
+
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
 
 echo '<h2>Create a thread</h2>';
 if(!isset($_SESSION['signed_in']) || $_SESSION['signed_in'] == false)
@@ -22,7 +33,7 @@ else
                 FROM
                     yearmodule";
 
-        $result = mysql_query($sql);
+        $result = $mysqli->query($sql);
 
         //REQUIRES ERROR HANDLING, SUBMITS WHEN FIELDS ARE BLANK.
 
@@ -33,7 +44,7 @@ else
         }
         else
         {
-            if(mysql_num_rows($result) == 0)
+            if($result->num_rows == 0)
             {
                 echo 'There are no modules to post threads in.';
             }
@@ -44,7 +55,7 @@ else
                     Title: <input type="text" name="thread_title" /></br>
                     Module:';
                 echo '<select name="thread_module">';
-                    while($row = mysql_fetch_assoc($result))
+                    while($row = $result->fetch_assoc())
                     {
                         echo '<option value="' . $row['name'] . '">' . $row['name'] . ' - ' . $row['subtitle'] . '</option>';
                     }
@@ -60,7 +71,7 @@ else
     {
         //start the transaction
         $query  = "BEGIN WORK;";
-        $result = mysql_query($query);
+        $result = $mysqli->query($query);
 
         if(!$result)
         {
@@ -69,36 +80,37 @@ else
         }
         else
         {
-            $thread_title = mysql_real_escape_string($_POST['thread_title']);
-            $thread_module = mysql_real_escape_string($_POST['thread_module']);
+            $thread_title = mysqli_real_escape_string($mysqli, $_POST['thread_title']);
+            $thread_module = mysqli_real_escape_string($mysqli, $_POST['thread_module']);
             $thread_creator = $_SESSION['username'];
-            
+
             if(empty($thread_title)){
                 echo 'You must give your thread a title.';
             } else if(empty($thread_module)){
                 echo 'Please select a module.';
             } else{
-            
+
                 //the form has been posted, so save it
                 //insert the topic into the topics table first, then we'll save the post into the posts table
                 $sql = "INSERT INTO
                            threads(title,
+                                  lastEdited,
                                    dateOfCreation,
                                    parentModuleID,
                                    creatorID)
-                       VALUES('$thread_title', NOW(), '$thread_module', '$thread_creator')";
-    
-                $result = mysql_query($sql);
+                       VALUES('$thread_title', NOW(), NOW(), '$thread_module', '$thread_creator')";
+
+                $result = $mysqli->query($sql);
                 if(!$result)
                 {
                     //something went wrong, display the error
-                    echo 'An error occured while inserting your thread. Please try again later.' . mysql_error();
+                    echo 'An error occured while inserting your thread. Please try again later.' . mysqli_error($mysqli);
                     $sql = "ROLLBACK;";
-                    $result = mysql_query($sql);
+                    $result = $mysqli->query($sql);
                 }
                 else
                 {
-                    $post_content = mysql_real_escape_string($_POST['thread_content']);
+                    $post_content = mysqli_real_escape_string($mysqli, $_POST['thread_content']);
                     //check for empty posts
                     if(empty($post_content)){
                         echo 'Cannot submit an empty thread. Please add some content.';
@@ -106,29 +118,29 @@ else
                         //post has content so continue
                         //the first query worked, now start the second, posts query
                         //retrieve the id of the freshly created topic for usage in the posts query
-                        $thread_id = mysql_insert_id();
-        
+                        $thread_id = mysqli_insert_id($mysqli);
+
                         $sql = "INSERT INTO
                                     post(content,
+                                          lastEdited,
                                           dateOfCreation,
                                           threadParentID,
                                           creatorID)
                                 VALUES
-                                    ('$post_content', NOW(), '$thread_id', '$thread_creator')";
-                        $result = mysql_query($sql);
-        
+                                    ('$post_content', NOW(), NOW(), '$thread_id', '$thread_creator')";
+                        $result = $mysqli->query($sql);
                         if(!$result)
                         {
                             //something went wrong, display the error
-                            echo 'An error occured while inserting your post. Please try again later.' . mysql_error();
+                            echo 'An error occured while inserting your post. Please try again later.' . mysqli_error($mysqli);
                             $sql = "ROLLBACK;";
-                            $result = mysql_query($sql);
+                            $result = $mysqli->query($sql);
                         }
                         else
                         {
                             $sql = "COMMIT;";
-                            $result = mysql_query($sql);
-        
+                            $result = $mysqli->query($sql);
+
                             //after a lot of work, the query succeeded!
                             echo 'You have successfully created <a href="posts.php?thread='. $thread_id . '">your new thread</a>.';
                         }

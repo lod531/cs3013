@@ -1,7 +1,18 @@
 <?php
-//signup.php
-include 'connect.php';
 include 'header.php';
+
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
+
 echo '<h2>Register</h2>';
 
 if(isset($_SESSION['signed_in']) && $_SESSION['signed_in'] == true) {
@@ -87,7 +98,7 @@ else {
             //the form has been posted without, so save it
             //notice the use of mysql_real_escape_string, keep everything safe!
             //also notice the sha1 function which hashes the password
-            
+
             $sqlCheckForUser = "SELECT
                         username,
                         password,
@@ -95,17 +106,17 @@ else {
                     FROM
                         user
                     WHERE
-                        username = '" . mysql_real_escape_string($_POST['username']) . "';
-                        
-            $queryResult = mysql_query($sqlCheckForUser);
+                        username = '" . mysql_real_escape_string($username) . "'";
+
+            $queryResult = $mysqli->query($sqlCheckForUser);
             if(!$queryResult){
                 echo 'An error occured while you were registering :(</br>Please <a href="register.php">try again</a>.';
             }
-            else if(mysql_num_rows($queryResult) == 0){
+            else if($queryResult->num_rows == 0){
                 $sql = "INSERT INTO user (username, password, usertitle)
                 VALUES ('$username', '$userpass', '$useremail')";
 
-                $result = mysql_query($sql);
+                $result = $mysqli->query($sql);
                 if(!$result)
                 {
                     //something went wrong, display the error
@@ -116,12 +127,12 @@ else {
                 {
                     echo 'Successfully registered. You can now <a href="login.php">sign in</a> and start posting!';
                 }
-            } 
+            }
             else{
                 //needs updating when password change option is created
                 echo 'It appears you are already registered! Try <a href="login.php">logging in</a>.</br>If you have forgotten your password you can change it.';
             }
-            
+
         }
     }
 }

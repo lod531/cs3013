@@ -1,7 +1,17 @@
 <?php
-//create_cat.php
-include 'connect.php';
 include 'header.php';
+
+$server = "localhost";
+$username   = "root";
+$password   = "";
+$database   = "csforum";
+
+if(!mysqli_connect($server, $username, $password, $database))
+{
+    exit('Error: could not establish database connection');
+}
+
+$mysqli = new mysqli($server, $username, $password, $database);
 
 if($_SERVER['REQUEST_METHOD'] != 'POST')
 {
@@ -20,26 +30,25 @@ else
         //a real user posted a real reply
         $user = $_SESSION['username'];
         $thread_id = $_GET['thread'];
-        $content = $_POST['reply_content'];
+        $content = mysqli_real_escape_string($mysqli, $_POST['reply_content']);
         if(empty($content)){
             echo 'Cannot submit an empty comment. Please enter some text.';
         } else {
-            
-            $content = real_escape_string($content);
             $sql = "INSERT INTO
                         post( dateOfCreation,
+                              lastEdited,
                               creatorID,
                               threadParentID,
                               content
                               )
-                    VALUES (NOW(), '$user', '$thread_id', $content)"; 
-    
-            $result = mysql_query($sql);
-    
+                    VALUES (NOW(), NOW(), '$user', '$thread_id', '$content')";
+
+            $result = $mysqli->query($sql);
+
             if(!$result)
             {
                 echo 'Your reply has not been submitted, please try again.';
-                echo mysql_error();
+                echo mysqli_error($mysqli);
             }
             else
             {
