@@ -79,10 +79,32 @@ table a:hover {
 th {
     background-color: #003366;
     color: #F0F0F0;
+     padding: 15px;
+     font-size: 20px;
 }
 
 td {
     padding: 5px;
+
+}
+.user-post {
+    text-align: left;
+    height: 100px;
+    overflow: auto;
+    width: 100px;
+    background-color: rgb(230, 230, 230);
+    vertical-align: top;
+
+}
+.post-content {
+    padding: 30px;
+    text-align: left;
+    vertical-align: top;
+
+
+}
+.d{
+    font-size: 50%;
 }
 
 /* Begin font styles */
@@ -124,11 +146,10 @@ h3 {margin: 0 auto; padding: 0;}
 .topic-post {
     height: 100px;
     overflow: auto;
+    text-align: left;
 }
 
-.post-content {
-    padding: 30px;
-}
+
 
 textarea {
     width: 500px;
