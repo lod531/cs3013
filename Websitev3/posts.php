@@ -83,7 +83,7 @@ else
 					echo '<tr class="thread-post">
 							<td class="user-post">' . $posts_row['creatorID'] . '<br/><br/>Created on: <d>' . date('d-m-Y H:i', strtotime($posts_row['dateOfCreation'])) . 
 							'</d><br/>Last edited: <d>' . date('d-m-Y H:i', strtotime($posts_row['lastEdited'])) . '</d></td>
-							<td class="post-content">' . wordwrap(htmlentities(stripslashes($posts_row['content'])), 85, "<br />\n", true) . '<br><br>' . $edit_privilege . '</td>
+							<td class="post-content">' . nl2br(wordwrap(htmlentities(stripslashes($posts_row['content'])), 85, "<br />\n", true)) . '<br><br>' . $edit_privilege . '</td>
 						  </tr>';
 				}
 			}
