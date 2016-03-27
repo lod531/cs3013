@@ -88,8 +88,11 @@ else
                 }
                 else
                 {
+                    $email1 = $_POST['email'];
   					$code = md5(uniqid(rand()));
-    
+                    $salt = "498#2D83B631%3800EBD!801600D*7E3CC13";
+                    $passwordWeb = hash('sha512', $salt.$email1);
+                    $pwrurl = 
   						$message= "
 					       Hello , 
 					       <br /><br />
@@ -97,7 +100,7 @@ else
 					       <br /><br />
 					       Click Following Link To Reset Your Password 
 					       <br /><br />
-					       <a href='www.csforum.ie/resetPass.php?id='".($_POST['email'])."'&code=$code'>click here to reset your password</a>
+					       <a href='www.csforum.ie/resetPass.php?q= .$email1. '>click here to reset your password</a>
 					       <br /><br />
 					       thank you :)
 					       ";
@@ -105,7 +108,8 @@ else
 					  
 						mail($_POST['email'],$subject,$message);
 					  
-					  echo 'Email Sent to Inbox';
+					  echo 'Email Sent to Inbox ';
+                    //  echo $passwordWeb;
                 }
             }
         }

@@ -13,7 +13,7 @@ if(!mysqli_connect($server, $username, $password, $database))
 
 $mysqli = new mysqli($server, $username, $password, $database);
 
-echo '<h2>Login</h2>';
+echo '<h2>Reset Password</h2>';
 
 //first, check if the user is already signed in. If that is the case, there is no need to display this page
 if(isset($_SESSION['signed_in']) && $_SESSION['signed_in'] == true)
@@ -23,13 +23,16 @@ if(isset($_SESSION['signed_in']) && $_SESSION['signed_in'] == true)
 else{
      if($_SERVER['REQUEST_METHOD'] != 'POST')
     {
-    echo '<form method="post" action="">
-            Confirm Username: <input type="text" name="username" ></br>
-            Confirm Email: <input type="text" name="user_email" ></br>
-            New Password: <input type="password" name="user_pass"></br>
-            Confirm password: <input type="password" name="user_pass_check"></br>
-            <input type="submit" value="Change Password" />
-         </form>';
+    echo '<form  method="POST" action="">
+    E-mail Address: <input type="text" name="email" /><br />
+    New Password: <input type="password" name="password" /><br />
+    Confirm Password: <input type="password" name="confirmpassword" /><br />
+        <input type="hidden" name="q" value="';
+        if (isset($_GET["q"])) {
+              echo $_GET["q"];
+        }
+    echo '" /><input type="submit" name="ResetPasswordForm" value=" Reset Password " />
+        </form>';
     }
          else
     {
@@ -38,62 +41,29 @@ else{
             2.  Let the user refill the wrong fields (if necessary)
             3.  Save the data
         */
-        $errors = array(); /* declare the array for later use */
-        if(isset($_POST['user_email']))
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $confirmpassword = $_POST["confirmpassword"];
+    $hash = $_POST["q"];
+
+    // Use the same salt from the forgot_password.php file
+    $salt = "498#2D83B631%3800EBD!801600D*7E3CC13";
+
+    // Generate the reset key
+    $resetkey = hash('sha512', $salt.$email);
+
+    // Does the new reset key match the old one?
+    if ($resetkey == $hash)
+    {
+        if ($password == $confirmpassword)
         {
-             if(strlen($_POST['user_email']) != 15){
-                $errors[] = 'The email must be 15 characters long.';
-               }
-            else
-            {
-               //detect valid email through pattern, take username as well
-               //preg_match_all('/([a-zA-Z]{7})([a-zA-Z0-9]{1})+(@tcd.ie)/', 'user_email', $validEntries, PREG_SET_ORDER);
-               preg_match_all('/([a-zA-Z0-9])+(@tcd.ie)/', $_POST['user_email'], $validEntries, PREG_SET_ORDER);
-               if(empty($validEntries)){
-                $errors[] = 'Invalid email entered.';
-               }
-               else{
-                //query to scss db to verify the email
-                $parsedEmail = explode("@", $_POST['user_email']);
-                $username = $parsedEmail[0];
-                //$user_name = substr($_POST['user_email'], 0, 8);
-               }
-            }
-        }
-        else
-        {
-            $errors[] = 'The TCD email field must not be empty.';
-        }
-        if(isset($_POST['user_pass']))
-        {
-            if($_POST['user_pass'] != $_POST['user_pass_check'])
-            {
-                $errors[] = 'The two passwords did not match.';
-            }
-        }
-        else
-        {
-            $errors[] = 'The password field cannot be empty.';
-        }
-        if(!empty($errors)) /*check for an empty array, if there are errors, they're in this array (note the ! operator)*/
-        {
-            echo 'Uh-oh.. a couple of fields are not filled in correctly..';
-            echo '<ul>';
-            foreach($errors as $key => $value) /* walk through the array so all the errors get displayed */
-            {
-                echo '<li>' . $value . '</li>'; /* this generates a nice error list */
-            }
-            echo '</ul>';
-        }
-        else
-        {
-            $userpass = sha1($_POST['user_pass']); //HASH PASS
-            $username = ($_POST['username']);
+            //has and secure the password
+            $userpass = sha1($_POST['password']); //HASH PASS
             //$user_pass = $_POST['user_pass'];
             //the form has been posted without, so save it
             //notice the use of mysql_real_escape_string, keep everything safe!
             //also notice the sha1 function which hashes the password
-            $sql = "UPDATE `csforum`.`user` SET `password` = '$userpass' WHERE `user`.`username` = '$username'";
+            $sql = "UPDATE `csforum`.`user` SET `password` = '$userpass' WHERE `user`.`usertitle` = '$email'";
                        
             $queryResult = $mysqli->query($sql);
             if(!$queryResult){
@@ -105,6 +75,7 @@ else{
             }
         }
       }
+}
 }
 include 'footer.php';
 ?>
