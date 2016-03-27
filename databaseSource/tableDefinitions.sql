@@ -23,6 +23,9 @@ CREATE TABLE user
 (
  	username varchar(32) NOT NULL,
 	password varchar(64) NOT NULL,
+	email varchar(32) NOT NULL,
+	hash varchar(32) NOT NULL,
+	active int default 0,
        	usertitle varchar(64) NOT NULL,
 	PRIMARY KEY (username)
 );	
