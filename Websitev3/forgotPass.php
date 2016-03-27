@@ -27,11 +27,10 @@ else
         /*the form hasn't been posted yet, display it
           note that the action="" will cause the form to post to the same page it is on */
         echo '<form method="post" action="">
-            Username: <input type="text" name="username" /></br>
-            Password: <input type="password" name="password"></br>
-            <input type="submit" value="Sign in" />
+            Email: <input type="text" name="email" /></br>
+           	
+            <input type="submit" value="Forgot Password" />
          </form>';
-         echo  '<a href="forgotPass.php">Lost your Password ? </a>';
     }
     else
     {
@@ -43,16 +42,10 @@ else
 
         $errors = array(); /* declare the array for later use */
 
-        if(!isset($_POST['username']))
+        if(!isset($_POST['email']))
         {
             $errors[] = 'The username field must not be empty.';
         }
-
-        if(!isset($_POST['password']))
-        {
-            $errors[] = 'The password field must not be empty.';
-        }
-
         if(!empty($errors)) /*check for an empty array, if there are errors, they're in this array (note the ! operator)*/
         {
             echo 'Uh-oh.. a couple of fields are not filled in correctly..';
@@ -69,22 +62,20 @@ else
             //notice the use of mysql_real_escape_string, keep everything safe!
             //also notice the sha1 function which hashes the password
             $sql = "SELECT
-                        username,
-                        password,
                         usertitle
                     FROM
                         user
                     WHERE
-                        username = '" . mysql_real_escape_string($_POST['username']) . "'
-                    AND
-                        password = '" . sha1($_POST['password']) . "'";
+                        usertitle 
+                    LIKE
+                    	'" .($_POST['email']) . "'";
 
             $result = $mysqli->query($sql);
             if(!$result)
             {
                 //something went wrong, display the error
-                echo 'Something went wrong while signing in. Please try again later.';
-                //echo mysql_error(); //debugging purposes, uncomment when needed
+                echo 'Something went wrong while signing in. Please try again later. ';
+                echo mysql_error(); //debugging purposes, uncomment when needed
             }
             else
             {
@@ -93,23 +84,28 @@ else
                 //2. the query returned an empty result set, the credentials were wrong
                 if($result->num_rows == 0)
                 {
-                    echo 'You have supplied a wrong user/password combination. Please <a href="login.php">try again</a>.';
+                    echo 'The Email is not registered.';
                 }
                 else
                 {
-                    //set the $_SESSION['signed_in'] variable to TRUE
-                    $_SESSION['signed_in'] = true;
-
-                    //we also put the user_id and user_name values in the $_SESSION, so we can use it at various pages
-                    while($row = $result->fetch_assoc())
-                    {
-                        $_SESSION['username']  = $row['username'];
-                        $_SESSION['usertitle'] = $row['usertitle'];
-                       // $_SESSION['user_level'] = $row['user_level'];
-                    }
-
-                    echo 'Welcome, ' . $_SESSION['username'] . '. Redirecting...';
-                    header('Refresh: 2; url=home.php');
+  					$code = md5(uniqid(rand()));
+    
+  						$message= "
+					       Hello , 
+					       <br /><br />
+					       We got requested to reset your password, if you do this then just click the following link to reset your password, if not just ignore                   this email,
+					       <br /><br />
+					       Click Following Link To Reset Your Password 
+					       <br /><br />
+					       <a href='www.csforum.ie/resetPass.php?id='".($_POST['email'])."'&code=$code'>click here to reset your password</a>
+					       <br /><br />
+					       thank you :)
+					       ";
+					  $subject = "Password Reset";
+					  
+						mail($_POST['email'],$subject,$message);
+					  
+					  echo 'Email Sent to Inbox';
                 }
             }
         }
