@@ -27,7 +27,8 @@ CREATE TABLE user
 	hash varchar(32) NOT NULL,
 	active int default 0,
        	usertitle varchar(64) NOT NULL,
-	PRIMARY KEY (username)
+	PRIMARY KEY (username),
+	CONSTRAINT activeConstraint CHECK (active < 2)
 );	
 
 CREATE TABLE threads
