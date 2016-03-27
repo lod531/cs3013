@@ -77,7 +77,7 @@ else
 					}
 					$id = $posts_row['id'];
 					if($posts_row['creatorID'] == $_SESSION['username']){
-						$edit_privilege = '(<a href = "edit_post.php?thread=' . $thread_id . '&id=' . $id . $original_post .'">Edit post.</a>)<br>';
+						$edit_privilege = '<a class="item" href = "edit_post.php?thread=' . $thread_id . '&id=' . $id . $original_post .'">Edit post.</a><br>';
 					}
 
 					echo '<tr class="thread-post">
