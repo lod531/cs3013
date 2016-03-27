@@ -49,7 +49,7 @@ else {
                //detect valid email through pattern, take username as well
                //preg_match_all('/([a-zA-Z]{7})([a-zA-Z0-9]{1})+(@tcd.ie)/', 'user_email', $validEntries, PREG_SET_ORDER);
 
-               preg_match_all('/([a-zA-Z]{7})([a-zA-Z0-9]{1})+(@tcd.ie)/', $_POST['user_email'], $validEntries, PREG_SET_ORDER);
+               preg_match_all('/([a-zA-Z0-9])+(@tcd.ie)/', $_POST['user_email'], $validEntries, PREG_SET_ORDER);
                if(empty($validEntries)){
                 $errors[] = 'Invalid email entered.';
                }
