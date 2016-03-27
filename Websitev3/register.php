@@ -98,39 +98,58 @@ else {
             //the form has been posted without, so save it
             //notice the use of mysql_real_escape_string, keep everything safe!
             //also notice the sha1 function which hashes the password
+            $hash = md5(rand(0,1000));
+            //$password = md5(rand(1000,5000));
 
             $sqlCheckForUser = "SELECT
                         username,
                         password,
-                        usertitle
+                        usertitle,
+                        email,
+                        hash,
+                        active
                     FROM
                         user
                     WHERE
-                        username = '" . mysql_real_escape_string($username) . "'";
+                        username = '" . mysqli_real_escape_string($mysqli, $username) . "'";
 
             $queryResult = $mysqli->query($sqlCheckForUser);
             if(!$queryResult){
                 echo 'An error occured while you were registering :(</br>Please <a href="register.php">try again</a>.';
             }
             else if($queryResult->num_rows == 0){
-                $sql = "INSERT INTO user (username, password, usertitle)
-                VALUES ('$username', '$userpass', '$useremail')";
+
+                $userpass = mysqli_real_escape_string($mysqli, $userpass);
+                $title = 'scrublord';
+                $hash =  mysqli_real_escape_string($mysqli, $hash);
+                $useremail = mysqli_real_escape_string($mysqli, $useremail);
+                $sql = "INSERT INTO user (username, password, usertitle, hash, email)
+                VALUES ('$username', '$userpass', '$title', '$hash', '$useremail')";
 
                 $result = $mysqli->query($sql);
                 if(!$result)
                 {
                     //something went wrong, display the error
                     echo 'Something went wrong while registering. Please try again later.';
-                    //echo mysql_error(); //debugging purposes, uncomment when needed
+                    echo mysqli_error($mysqli); //debugging purposes, uncomment when needed
                 }
                 else
                 {
-                    echo 'Successfully registered. You can now <a href="login.php">sign in</a> and start posting!';
+                    echo 'You have successfully registered with the following details<br>Username: ' . $username . '<br>Password: ' . $userpass . '';
+                    echo 'You can login with these details once you have <a href="verify.php?email=' . $useremail . '&hash=' . $hash . '">verified your email</a>.';
+                    //echo 'Successfully registered. You can now <a href="login.php">sign in</a> and start posting!';
                 }
             }
             else{
                 //needs updating when password change option is created
-                echo 'It appears you are already registered! Try <a href="login.php">logging in</a>.</br>If you have forgotten your password you can change it.';
+                while($matches = $queryResult->fetch_assoc()){
+                    
+                    if($matches['active']==0){
+                        echo 'You have already registered but you still need to <a href="verify.php?email=' . $matches['email'] . '&hash=' . $matches['hash'] . '">verify</a> your email.';
+                    } else{
+                        echo 'It appears you are already registered! Try <a href="login.php">logging in</a>.</br>If you have forgotten your password you can change it.';
+                    }
+                }
             }
 
         }
