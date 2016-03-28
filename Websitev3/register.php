@@ -147,7 +147,7 @@ else {
                     if($matches['active']==0){
                         echo 'You have already registered but you still need to <a href="verify.php?email=' . $matches['email'] . '&hash=' . $matches['hash'] . '">verify</a> your email.';
                     } else{
-                        echo 'It appears you are already registered! Try <a href="login.php">logging in</a>.</br>If you have forgotten your password you can change it.';
+                        echo 'It appears you are already registered! Try <a href="login.php">logging in</a>.</br>If you have <a href="forgotPass.php">forgotten your password</a> you can change it.';
                     }
                 }
             }
