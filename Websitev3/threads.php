@@ -23,11 +23,14 @@ $sql = "SELECT
             parentModuleID,
             creatorID,
             threadText,
-            lastEdited
+            lastEdited,
+            active
         FROM
             threads
         WHERE
-            parentModuleID = $module";
+            parentModuleID = $module
+        ORDER BY
+            lastEdited ASC ";
 
 $result = $mysqli->query($sql);
 
@@ -52,10 +55,18 @@ else
 
         while($row = $result->fetch_assoc())
         {
-            $thread_id = $row['id'];
+          if ($row['active'] == 1)
+          {
             echo '<tr>';
+          }
+          else
+          {
+            echo '<tr bgcolor="#BDBDBD">';
+          }
+            $thread_id = $row['id'];
                 echo '<td class="leftpart">';
-                    echo "<h3><a href=\"posts.php?thread='$thread_id'\">" . $row['title'] . "</a></h3>" . $row['creatorID'];
+                    echo '<h3><a href="posts.php?thread=' . $thread_id . '">' . $row['title'] . '</a></h3>By: <b>' . $row['creatorID'] . '</b>
+                    &nbsp&nbsp&nbsp&nbspCreated on:<b> ' . $row['dateOfCreation'] . '<b>';
                 echo '</td>';
                 echo '<td class="rightpart">';
                             echo '<a href="posts.php?id=">User</a> at 10-10';

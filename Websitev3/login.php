@@ -123,20 +123,20 @@ else
                         }
                         if ($_SESSION['moderator'])
                         {
-                        echo 'Welcome, moderator ' . $_SESSION['username'] . '. Redirecting...';
+                        echo 'Welcome, moderator <b>' . $_SESSION['username'] . '</b>. Redirecting...';
                         header('Refresh: 2; url=moderator.php');
                         }
                         else
                         {
                             $_SESSION['moderator'] = false;
-                            echo 'Welcome, ' . $_SESSION['username'] . '. Redirecting...';
+                            echo 'Welcome, <b>' . $_SESSION['username'] . '</b>. Redirecting...';
                             header('Refresh: 1; url=home.php');
                         }
                     }
                     else
                     {
                         $_SESSION['moderator'] = false;
-                        echo 'Welcome, ' . $_SESSION['username'] . '. Redirecting...';
+                        echo 'Welcome, <b>' . $_SESSION['username'] . '</b>. Redirecting...';
                         header('Refresh: 1; url=home.php');
                     }
                 }

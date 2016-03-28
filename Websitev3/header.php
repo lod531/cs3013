@@ -12,7 +12,7 @@
     session_start();
     if (isset($_SESSION['moderator']) && $_SESSION['moderator'])
     {
-    echo '<a class="item" href="moderator.php">Manage</a>';
+    echo '<a class="item" href="moderator.php">Manage ' . $_SESSION['modulemod'] . '</a>';
     }
 		echo '<div id="userbar">';
         if (isset($_SESSION['signed_in']))

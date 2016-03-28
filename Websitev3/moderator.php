@@ -41,7 +41,7 @@ $mysqli = new mysqli($server, $username, $password, $database);
           //prepare the table
           echo '<table border="1">
                 <tr>
-                  <th>Thread Name</th>
+                  <th>'. $_SESSION['modulemod'] . ' Threads</th>
                   <th>Creator</th>
                   <th>Posts</th>
                   <th>Active</th>
@@ -50,7 +50,14 @@ $mysqli = new mysqli($server, $username, $password, $database);
           while($row = $result->fetch_assoc())
           {
               echo '<form action="moderator.php" method="post">';
+              if ($row['active'] == 1)
+              {
               echo '<tr>';
+              }
+              else
+              {
+              echo '<tr bgcolor="#BDBDBD">';
+              }
                   echo '<td class="leftpart">';
                       echo '<input type="checkbox" name="checklist[]" value="' . $row['id'] . '"><label>&nbsp&nbsp<a href="posts.php?thread=' . $row['id'] . '">' . $row['title'] .'</a></label><br/>';
                   echo '</td>';
@@ -119,12 +126,12 @@ $mysqli = new mysqli($server, $username, $password, $database);
                 }
                 if (!$thread_reopen_result)
                 {
-                  echo 'Reopening failed.';
+                  echo 'Reopen failed.';
                   header('Refresh: 1; url=moderator.php');
                 }
                 else
                 {
-                  echo 'Reopening successful. Refreshing table...';
+                  echo 'Reopen successful. Refreshing table...';
                   header('Refresh: 1; url=moderator.php');
                 }
           }
@@ -132,7 +139,7 @@ $mysqli = new mysqli($server, $username, $password, $database);
           {
             echo '<input type="submit" name="delete" Value="Delete selected"/>&nbsp';
             echo '<input type="submit" name="close" Value="Close selected"/>&nbsp';
-              echo '<input type="submit" name="reopen" Value="Reopen selected"/></br>';
+            echo '<input type="submit" name="reopen" Value="Reopen selected"/></br>';
           }
           echo '</td></tr>';
           echo '</form>';

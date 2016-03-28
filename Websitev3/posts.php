@@ -69,27 +69,31 @@ else
 			else
 			{
 				$id = -1;
-				while($posts_row = $posts_result->fetch_assoc())
+				while ($posts_row = $posts_result->fetch_assoc())
 				{
 					$original_post = '&op=0';
 					$edit_privilege = '';
-					if($id == -1){
+					if ($id == -1) {
 						$original_post = '&op=1';
 					}
 					$id = $posts_row['id'];
-					if($posts_row['creatorID'] == $_SESSION['username']){
+					if (isset($_SESSION['signed_in']) && $posts_row['creatorID'] == $_SESSION['username']) {
 						$edit_privilege = '<a class="item" href = "edit_post.php?thread=' . $thread_id . '&id=' . $id . $original_post .'">Edit post</a><br>';
 					}
 
+          $mod_result = $mysqli->query("SELECT * FROM moderators WHERE userID = '". $posts_row['creatorID']. "'");
+
+
+
 					echo '<tr class="thread-post">
-							<td class="user-post">' . $posts_row['creatorID'] . '<br/><br/>Created on: <d>' . date('d-m-Y H:i', strtotime($posts_row['dateOfCreation'])) .
-							'</d><br/>Last edited: <d>' . date('d-m-Y H:i', strtotime($posts_row['lastEdited'])) . '</d></td>
+							<td class="user-post"><b>' . $posts_row['creatorID'] . '</b><br/><br/><b>Created on: </b><d>' . date('d-m-Y H:i', strtotime($posts_row['dateOfCreation'])) .
+							'</d><br/><b>Last edited: </b><d>' . date('d-m-Y H:i', strtotime($posts_row['lastEdited'])) . '</d></td>
 							<td class="post-content">' . nl2br(wordwrap(htmlentities(stripslashes($posts_row['content'])), 85, "<br />\n", true)) . '<br><br>' . $edit_privilege . '</td>
 						  </tr>';
 				}
 			}
 
-			if(!$_SESSION['signed_in'])
+			if(!isset($_SESSION['signed_in']) || !$_SESSION['signed_in'])
 			{
 				echo '<tr><td colspan=2>You must be <a href="login.php">logged in</a> to reply. Not a member? Register <a href="register.php">here</a>.';
 			}
