@@ -17,7 +17,8 @@ $mysqli = new mysqli($server, $username, $password, $database);
               parentModuleID,
               creatorID,
               threadText,
-              lastEdited
+              lastEdited,
+              active
           FROM
               threads
           WHERE
@@ -43,6 +44,7 @@ $mysqli = new mysqli($server, $username, $password, $database);
                   <th>Thread Name</th>
                   <th>Creator</th>
                   <th>Posts</th>
+                  <th>Active</th>
                 </tr>';
 
           while($row = $result->fetch_assoc())
@@ -52,6 +54,22 @@ $mysqli = new mysqli($server, $username, $password, $database);
                   echo '<td class="leftpart">';
                       echo '<input type="checkbox" name="checklist[]" value="' . $row['id'] . '"><label>&nbsp&nbsp<a href="posts.php?thread=' . $row['id'] . '">' . $row['title'] .'</a></label><br/>';
                   echo '</td>';
+                  echo '<td class="leftpart">' . $row['creatorID'] . '  </td>';
+                  $postcount_result = $mysqli->query("SELECT * FROM post WHERE threadParentID = '" . $row['id'] . "'");
+                  echo '<td class="leftpart">';
+                  if($postcount_result)
+                  {
+                    echo $postcount_result->num_rows;
+                  }
+                  else
+                  {
+                    echo mysqli_error($mysqli);
+                  }
+                  echo '</td>';
+                  $active = '';
+                  if ($row['active'] == 1) {$active = "Yes";} else {$active = "No";}
+                  echo '<td class="leftpart">' . $active . '  </td>';
+
               echo '</tr>';
           }
 

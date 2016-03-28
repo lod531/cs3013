@@ -77,11 +77,11 @@ else
 					}
 					$id = $posts_row['id'];
 					if($posts_row['creatorID'] == $_SESSION['username']){
-						$edit_privilege = '<a class="item" href = "edit_post.php?thread=' . $thread_id . '&id=' . $id . $original_post .'">Edit post.</a><br>';
+						$edit_privilege = '<a class="item" href = "edit_post.php?thread=' . $thread_id . '&id=' . $id . $original_post .'">Edit post</a><br>';
 					}
 
 					echo '<tr class="thread-post">
-							<td class="user-post">' . $posts_row['creatorID'] . '<br/><br/>Created on: <d>' . date('d-m-Y H:i', strtotime($posts_row['dateOfCreation'])) . 
+							<td class="user-post">' . $posts_row['creatorID'] . '<br/><br/>Created on: <d>' . date('d-m-Y H:i', strtotime($posts_row['dateOfCreation'])) .
 							'</d><br/>Last edited: <d>' . date('d-m-Y H:i', strtotime($posts_row['lastEdited'])) . '</d></td>
 							<td class="post-content">' . nl2br(wordwrap(htmlentities(stripslashes($posts_row['content'])), 85, "<br />\n", true)) . '<br><br>' . $edit_privilege . '</td>
 						  </tr>';
