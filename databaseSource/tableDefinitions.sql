@@ -28,7 +28,7 @@ CREATE TABLE user
 	active int default 0,
        	usertitle varchar(64) NOT NULL,
 	PRIMARY KEY (username),
-	CONSTRAINT activeConstraint CHECK (active < 2)
+	CONSTRAINT userActiveConstraint CHECK (active < 2)
 );	
 
 CREATE TABLE threads
@@ -40,9 +40,11 @@ CREATE TABLE threads
 	creatorID varchar(32) NOT NULL,
 	threadText varchar(64000) NOT NULL,
 	lastEdited DATETIME,
+	active int default 1,
 	PRIMARY KEY (id),
 	FOREIGN KEY (parentModuleID) REFERENCES yearModule(name),
-	FOREIGN KEY (creatorID) REFERENCES user(username)
+	FOREIGN KEY (creatorID) REFERENCES user(username),
+	CONSTRAINT threadActiveConstraint CHECK (active < 2)
 
 );
 
