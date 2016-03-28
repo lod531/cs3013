@@ -27,11 +27,11 @@ else
         /*the form hasn't been posted yet, display it
           note that the action="" will cause the form to post to the same page it is on */
         echo '<form method="post" action="">
-            Username: <input type="text" name="username" /></br>
-            Password: <input type="password" name="password"></br>
+            Username: <input type="text" name="username" /></br></br>
+            Password: <input type="password" name="password"></br></br>
             <input type="submit" value="Sign in" />
-         </form>';
-         echo  '<a href="forgotPass.php">Lost your Password ? </a>';
+            </form>';
+        echo  '<a href="forgot_pass.php">Forgot Your Password? </a>';
     }
     else
     {
@@ -94,6 +94,7 @@ else
                 if($result->num_rows == 0)
                 {
                     echo 'You have supplied a wrong user/password combination. Please <a href="login.php">try again</a>.';
+                    header('Refresh: 1; url=login.php');
                 }
                 else
                 {
@@ -105,11 +106,39 @@ else
                     {
                         $_SESSION['username']  = $row['username'];
                         $_SESSION['usertitle'] = $row['usertitle'];
-                       // $_SESSION['user_level'] = $row['user_level'];
                     }
 
-                    echo 'Welcome, ' . $_SESSION['username'] . '. Redirecting...';
-                    header('Refresh: 2; url=home.php');
+                    //check if user is a moderator
+                    $sql = "SELECT userID, yearModuleName FROM moderators WHERE userID = '" . $_SESSION['username'] . "'";
+                    $mod_result = $mysqli->query($sql);
+                    if ($mod_result)
+                    {
+                        while ($mod_row = $mod_result->fetch_assoc())
+                        {
+                            if ($mod_row['userID'] == $_SESSION['username'])
+                            {
+                                  $_SESSION['moderator'] = true;
+                            }
+                            $_SESSION['modulemod'] = $mod_row['yearModuleName'];
+                        }
+                        if ($_SESSION['moderator'])
+                        {
+                        echo 'Welcome, moderator ' . $_SESSION['username'] . '. Redirecting...';
+                        header('Refresh: 2; url=moderator.php');
+                        }
+                        else
+                        {
+                            $_SESSION['moderator'] = false;
+                            echo 'Welcome, ' . $_SESSION['username'] . '. Redirecting...';
+                            header('Refresh: 1; url=home.php');
+                        }
+                    }
+                    else
+                    {
+                        $_SESSION['moderator'] = false;
+                        echo 'Welcome, ' . $_SESSION['username'] . '. Redirecting...';
+                        header('Refresh: 1; url=home.php');
+                    }
                 }
             }
         }

@@ -28,7 +28,7 @@ else
           note that the action="" will cause the form to post to the same page it is on */
         echo '<form method="post" action="">
             Email: <input type="text" name="email" /></br>
-           	
+
             <input type="submit" value="Forgot Password" />
          </form>';
     }
@@ -66,7 +66,7 @@ else
                     FROM
                         user
                     WHERE
-                        usertitle 
+                        usertitle
                     LIKE
                     	'" .($_POST['email']) . "'";
 
@@ -92,22 +92,22 @@ else
   					$code = md5(uniqid(rand()));
                     $salt = "498#2D83B631%3800EBD!801600D*7E3CC13";
                     $passwordWeb = hash('sha512', $salt.$email1);
-                    $pwrurl = 
+                    $pwrurl =
   						$message= "
-					       Hello , 
+					       Hello ,
 					       <br /><br />
-					       We got requested to reset your password, if you do this then just click the following link to reset your password, if not just ignore                   this email,
+					       We received a request to reset your password, if you did this then click the following link to reset your password, if not just ignore this email,
 					       <br /><br />
-					       Click Following Link To Reset Your Password 
+					       Click The Following Link To Reset Your Password
 					       <br /><br />
-					       <a href='www.csforum.ie/resetPass.php?q= .$email1. '>click here to reset your password</a>
+					       <a href='www.csforum.ie/reset_pass.php?q= .$email1. '>click here to reset your password</a>
 					       <br /><br />
 					       thank you :)
 					       ";
 					  $subject = "Password Reset";
-					  
+
 						mail($_POST['email'],$subject,$message);
-					  
+
 					  echo 'Email Sent to Inbox ';
                     //  echo $passwordWeb;
                 }

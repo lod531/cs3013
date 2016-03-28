@@ -24,9 +24,9 @@ else {
         /*the form hasn't been posted yet, display it
           note that the action="" will cause the form to post to the same page it is on */
         echo '<form method="post" action="">
-            TCD Email: <input type="email" name="user_email"></br>
-            Password: <input type="password" name="user_pass"></br>
-            Confirm password: <input type="password" name="user_pass_check"></br>
+            TCD Email: <input type="email" name="user_email"></br></br>
+            Password: <input type="password" name="user_pass"></br></br>
+            Confirm password: <input type="password" name="user_pass_check"></br></br>
             <input type="submit" value="Register" />
          </form>';
     }
@@ -135,7 +135,7 @@ else {
                 }
                 else
                 {
-                    echo 'You have successfully registered with the following details<br>Username: ' . $username . '<br>Password: ' . $userpass . '';
+                    echo 'You have successfully registered with the following details:<br><br>Username: ' . $username . '<br>Password: ' . $_POST['user_pass'] . '<br><br>';
                     echo 'You can login with these details once you have <a href="verify.php?email=' . $useremail . '&hash=' . $hash . '">verified your email</a>.';
                     //echo 'Successfully registered. You can now <a href="login.php">sign in</a> and start posting!';
                 }
@@ -143,7 +143,7 @@ else {
             else{
                 //needs updating when password change option is created
                 while($matches = $queryResult->fetch_assoc()){
-                    
+
                     if($matches['active']==0){
                         echo 'You have already registered but you still need to <a href="verify.php?email=' . $matches['email'] . '&hash=' . $matches['hash'] . '">verify</a> your email.';
                     } else{

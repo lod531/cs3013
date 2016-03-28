@@ -64,13 +64,13 @@ else{
             //notice the use of mysql_real_escape_string, keep everything safe!
             //also notice the sha1 function which hashes the password
             $sql = "UPDATE `csforum`.`user` SET `password` = '$userpass' WHERE `user`.`usertitle` = '$email'";
-                       
+
             $queryResult = $mysqli->query($sql);
             if(!$queryResult){
                 echo 'An error occured while you were changing password :(</br>Please <a href="resetPass.php">try again</a>.';
             }
             else{
-              echo 'Password Successfully Updated, <a href="login.php">Log In</a> to continue';
+              echo 'Password successfully updated, please <a href="login.php">Login</a> to continue';
               header('Refresh: 2; url=login.php');
             }
         }

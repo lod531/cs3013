@@ -68,7 +68,8 @@ table {
 }
 
 table a {
-    color: #000;
+    color: #000;#
+    width: auto;
 }
 
 table a:hover {
@@ -128,6 +129,7 @@ h3 {margin: 0 auto; padding: 0;}
 
 .leftpart {
     width: 70%;
+    text-align: left;
 }
 
 .rightpart {
@@ -154,4 +156,9 @@ h3 {margin: 0 auto; padding: 0;}
 textarea {
     width: 500px;
     height: 200px;
+}
+
+label {
+    display: inline-block; /* try "block" instead if this fails in IE */
+    min-width: 5em;
 }

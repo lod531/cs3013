@@ -13,7 +13,7 @@ if(!mysqli_connect($server, $username, $password, $database))
 
 $mysqli = new mysqli($server, $username, $password, $database);
 
-echo '<h2>Create a thread</h2>';
+echo '<h2>Create A Thread</h2>';
 if(!isset($_SESSION['signed_in']) || $_SESSION['signed_in'] == false)
 {
     //the user is not signed in

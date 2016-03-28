@@ -1,5 +1,4 @@
 <?php
-//signout.php
 include 'header.php';
 
 echo '<h2>Logout</h2>';
@@ -11,6 +10,11 @@ if($_SESSION['signed_in'] == true)
 	$_SESSION['signed_in'] = NULL;
 	$_SESSION['username'] = NULL;
 	$_SESSION['usertitle']   = NULL;
+	if($_SESSION['moderator'])
+	{
+		$_SESSION['moderator'] = NULL;
+		$_SESSION['modulemod'] = NULL;
+	}
 
 	echo 'Successfully logged out. Redirecting...';
     header('Refresh: 2; url=home.php');

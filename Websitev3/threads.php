@@ -46,7 +46,7 @@ else
         //prepare the table
         echo '<table border="1">
               <tr>
-                <th>Modules</th>
+                <th>Threads</th>
                 <th>Last reply</th>
               </tr>';
 
