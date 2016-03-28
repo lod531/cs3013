@@ -52,17 +52,17 @@ else
             {
 
                 echo '<form method="post" action="">
-                    Title: <input type="text" name="thread_title" /></br>
-                    Module:';
+                    Title: <input type="text" name="thread_title" /></br></br>
+                    Module: ';
                 echo '<select name="thread_module">';
                     while($row = $result->fetch_assoc())
                     {
                         echo '<option value="' . $row['name'] . '">' . $row['name'] . ' - ' . $row['subtitle'] . '</option>';
                     }
-                echo '</select></br>';
+                echo '</select></br></br>';
 
-                echo 'Message: <textarea name="thread_content" /></textarea>
-                    <input type="submit" value="Create topic" />
+                echo 'Message: <textarea name="thread_content" /></textarea></br></br>
+                    <input type="submit" value="Create" />
                  </form>';
             }
         }

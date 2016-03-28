@@ -18,7 +18,8 @@ $thread_id = $_GET['thread'];
 $sql = "SELECT
 			id,
 			title,
-      threadText
+      threadText,
+      active
 		FROM
 			threads
 		WHERE
@@ -49,7 +50,7 @@ else
 			//fetch the posts from the database
 			$posts_sql = "SELECT
 						threadParentID,
-				        content,
+				    content,
 						dateOfCreation,
 						lastEdited,
 						id,
@@ -94,11 +95,18 @@ else
 			}
 			else
 			{
+        if($row['active'] == 1)
+        {
 				echo '<tr><td colspan="2"><br><h2>Reply:</h2><br><br>
 					<form method="post" action="reply.php?thread=' . $row['id'] . '">
 						<textarea name="reply_content"></textarea><br /><br />
 						<input type="submit" value="Submit reply" />
 					</form></td></tr>';
+        }
+        else
+        {
+          echo '<tr><td colspan="2"><br><h2>Thread Closed</h2></td></tr>';
+        }
 			}
 
 			//finish the table

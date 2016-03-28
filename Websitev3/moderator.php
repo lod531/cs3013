@@ -73,7 +73,7 @@ $mysqli = new mysqli($server, $username, $password, $database);
               echo '</tr>';
           }
 
-          echo '<tr><td colspan=2>';
+          echo '<tr><td colspan=4>';
 
           if((isset($_POST['delete']) && isset($_POST['checklist']) && is_array($_POST['checklist'])))
           {
@@ -89,34 +89,54 @@ $mysqli = new mysqli($server, $username, $password, $database);
                 }
                 else
                 {
-                  echo 'Deletion successful.';
+                  echo 'Deletion successful. Refreshing table...';
                   header('Refresh: 1; url=moderator.php');
                 }
           }
           else if ((isset($_POST['close']) && isset($_POST['checklist']) && is_array($_POST['checklist'])))
           {
+            foreach($_POST['checklist'] as $selected)
+                {
+                  $thread_close_result = $mysqli->query("UPDATE threads SET active = 0 WHERE id = $selected");
+                }
+                if (!$thread_close_result)
+                {
+                  echo 'Closure failed.';
+                  header('Refresh: 1; url=moderator.php');
+                }
+                else
+                {
+                  echo 'Closure successful. Refreshing table...';
+                  header('Refresh: 1; url=moderator.php');
+                }
+          }
 
-
-
+          else if ((isset($_POST['reopen']) && isset($_POST['checklist']) && is_array($_POST['checklist'])))
+          {
+            foreach($_POST['checklist'] as $selected)
+                {
+                  $thread_reopen_result = $mysqli->query("UPDATE threads SET active = 1 WHERE id = $selected");
+                }
+                if (!$thread_reopen_result)
+                {
+                  echo 'Reopening failed.';
+                  header('Refresh: 1; url=moderator.php');
+                }
+                else
+                {
+                  echo 'Reopening successful. Refreshing table...';
+                  header('Refresh: 1; url=moderator.php');
+                }
           }
           else
           {
             echo '<input type="submit" name="delete" Value="Delete selected"/>&nbsp';
-            echo '<input type="submit" name="close" Value="Close selected"/></br>';
+            echo '<input type="submit" name="close" Value="Close selected"/>&nbsp';
+              echo '<input type="submit" name="reopen" Value="Reopen selected"/></br>';
           }
           echo '</td></tr>';
           echo '</form>';
-
-
-
-
       }
   }
-
-
-
-
-
-
 include 'footer.php';
 ?>
