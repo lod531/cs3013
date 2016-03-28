@@ -95,8 +95,15 @@ else
 
 			if(!isset($_SESSION['signed_in']) || !$_SESSION['signed_in'])
 			{
+        if($row['active'] == 1)
+        {
 				echo '<tr><td colspan=2>You must be <a href="login.php">logged in</a> to reply. Not a member? Register <a href="register.php">here</a>.';
-			}
+        }
+        else
+        {
+          echo '<tr><td colspan="2"><br><h2>Thread Closed</h2></td></tr>';
+        }
+      }
 			else
 			{
         if($row['active'] == 1)

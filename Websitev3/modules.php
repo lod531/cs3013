@@ -43,7 +43,7 @@ else
         echo '<table border="1">
               <tr>
                 <th>Modules</th>
-                <th>Last thread</th>
+                <th>Newest thread</th>
               </tr>';
 
         while($row = $result->fetch_assoc())
@@ -54,8 +54,26 @@ else
                     echo "<h3><a href=\"threads.php?module='$module_code'\">" . $row['name'] . "</a></h3>" . $row['subtitle'];
                 echo '</td>';
                 echo '<td class="rightpart">';
-                            echo '<a href="posts.php?thread=">Thread title goes here</a> at 10-10 by blablabla';
-                echo '</td>';
+                $latest_thread_result = $mysqli->query("SELECT id, title, creatorID, dateOfCreation FROM threads WHERE parentModuleID = '" . $row['name'] . "' ORDER BY dateOfCreation DESC LIMIT 1");
+                if ($latest_thread_result)
+                {
+                  if ($latest_thread_result->num_rows != 0)
+                  {
+                    while($ltr_row = $latest_thread_result->fetch_assoc())
+                    {
+                    echo '<b><a href="posts.php?thread='.$ltr_row['id'].'">'.$ltr_row['title'].'</a></b> at <b>'.$ltr_row['dateOfCreation'].'</b> by <b>'.$ltr_row['creatorID'].'</b>';
+                    }
+                    echo '</td>';
+                  }
+                  else
+                  {
+                    echo 'No threads.';
+                  }
+                }
+                else
+                {
+                  echo mysqli_error($mysqli);
+                }
             echo '</tr>';
         }
     }

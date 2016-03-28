@@ -30,7 +30,7 @@ $sql = "SELECT
         WHERE
             parentModuleID = $module
         ORDER BY
-            lastEdited ASC ";
+            lastEdited DESC";
 
 $result = $mysqli->query($sql);
 
@@ -50,26 +50,46 @@ else
         echo '<table border="1">
               <tr>
                 <th>Threads</th>
-                <th>Last reply</th>
+                <th>Last post</th>
               </tr>';
 
         while($row = $result->fetch_assoc())
         {
-          if ($row['active'] == 1)
+          $active = '';
+          if ($row['active'] == 0)
           {
-            echo '<tr>';
+            $active = "Closed";
           }
           else
           {
-            echo '<tr bgcolor="#BDBDBD">';
+            $active = "Active";
           }
             $thread_id = $row['id'];
                 echo '<td class="leftpart">';
                     echo '<h3><a href="posts.php?thread=' . $thread_id . '">' . $row['title'] . '</a></h3>By: <b>' . $row['creatorID'] . '</b>
-                    &nbsp&nbsp&nbsp&nbspCreated on:<b> ' . $row['dateOfCreation'] . '<b>';
+                    &nbsp&nbsp&nbsp&nbspCreated on:<b> ' . $row['dateOfCreation'] . '</b>&nbsp&nbsp&nbsp&nbsp'.$active.'';
                 echo '</td>';
                 echo '<td class="rightpart">';
-                            echo '<a href="posts.php?id=">User</a> at 10-10';
+                $latest_post_result = $mysqli->query("SELECT creatorID, dateOfCreation FROM post WHERE threadParentID = '" . $row['id'] . "' ORDER BY dateOfCreation DESC LIMIT 1");
+                if ($latest_post_result)
+                {
+                  if ($latest_post_result->num_rows != 0)
+                  {
+                    while($ltp_row = $latest_post_result->fetch_assoc())
+                    {
+                    echo '<b>' . $ltp_row['creatorID'] . '</b> at <b>' . $ltp_row['dateOfCreation'] . '</b>';
+                    }
+                    echo '</td>';
+                  }
+                  else
+                  {
+                    echo 'No replies.';
+                  }
+                }
+                else
+                {
+                  echo mysqli_error($mysqli);
+                }
                 echo '</td>';
             echo '</tr>';
         }

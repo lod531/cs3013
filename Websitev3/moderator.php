@@ -43,7 +43,7 @@ $mysqli = new mysqli($server, $username, $password, $database);
                 <tr>
                   <th>'. $_SESSION['modulemod'] . ' Threads</th>
                   <th>Creator</th>
-                  <th>Posts</th>
+                  <th>Replies</th>
                   <th>Active</th>
                 </tr>';
 
@@ -66,7 +66,7 @@ $mysqli = new mysqli($server, $username, $password, $database);
                   echo '<td class="leftpart">';
                   if($postcount_result)
                   {
-                    echo $postcount_result->num_rows;
+                    echo $postcount_result->num_rows - 1;
                   }
                   else
                   {

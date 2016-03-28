@@ -44,8 +44,8 @@ else
                     VALUES (NOW(), NOW(), '$user', '$thread_id', '$content')";
 
             $result = $mysqli->query($sql);
-
-            if(!$result)
+            $update = $mysqli->query("UPDATE threads SET lastEdited = NOW() WHERE id= '$thread_id'");
+            if(!$result || !$update)
             {
                 echo 'Your reply has not been submitted, please try again.';
                 echo mysqli_error($mysqli);
