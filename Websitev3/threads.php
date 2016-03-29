@@ -4,7 +4,7 @@ include 'header.php';
 $server = "localhost";
 $username   = "root";
 $password   = "";
-$database   = "populateddb";
+$database   = "csforum";
 
 if(!mysqli_connect($server, $username, $password, $database))
 {
@@ -14,9 +14,7 @@ if(!mysqli_connect($server, $username, $password, $database))
 $mysqli = new mysqli($server, $username, $password, $database);
 
 $module = $_GET['module'];
-
 $_GET['thread'] = '';
-
 
 $sql = "SELECT
             id,
@@ -25,46 +23,20 @@ $sql = "SELECT
             parentModuleID,
             creatorID,
             threadText,
-            lastEdited
+            lastEdited,
+            active
         FROM
             threads
         WHERE
-            parentModuleID = $module";
-
+            parentModuleID = $module
+        ORDER BY
+            lastEdited DESC";
 
 $result = $mysqli->query($sql);
-// $inspector = array();
-// $count = 0;
-// while($rowwhile = mysqli_fetch_array($result))
-// {
-//     $inspector = $rowwhile('id');
-//     printf("%s\n",$inspector[$count]);
-//     $count++;
-// }
-$posts_sql = "SELECT
-                        threadParentID,
-                        content,
-                        dateOfCreation,
-                        lastEdited,
-                        id,
-                        creatorID
-                    FROM
-                        post
-                    ORDER BY 
-                    id
-                    DESC";
-
-$posts_result = $mysqli->query($posts_sql);
-
-
 
 if(!$result)
 {
     echo 'The threads for this module could not be displayed, please try again later.';
-}
-else if(!$posts_result)
-{
-    echo 'TTTThe threads for this module could not be displayed, please try again later.';
 }
 else
 {
@@ -77,76 +49,49 @@ else
         //prepare the table
         echo '<table border="1">
               <tr>
-                <th>Modules</th>
-                <th>Last reply</th>
+                <th>Threads</th>
+                <th>Last post</th>
               </tr>';
-        $questionCount = 0;
-        //$countRow = $posts_result->fetch_assoc();
-        $threadNumberOn;
-        $threadPresent = [];
-        while($row = $posts_result->fetch_assoc())
+
+        while($row = $result->fetch_assoc())
         {
-            // $row1 = $result->fetch_array(MYSQLI_BOTH);
-            // printf ("%s (%s) (%s)\n", $row["id"], $row["dateOfCreation"],$row["title"]);
-            //echo "threadParentId" .$row['threadParentID']. "\n";
-            // $parentThread = $row['threadParentID'];
-            // $thread = $row['id'];
-            // echo $thread;
-            // if(in_array($parentThread,$threadPresent))
-            // {
-            // //     echo $parentThread;
-            // //     echo $threadNumberOn;
-            //     //echo $parentThread;
-            //      continue;
-            // }
-            // $threadPresent[] = $parentThread;
-            // $threadNumberOn = $parentThread;
-            // //$threadNumberOn = $row['threadParentID'];
-            //echo "\nThread number On " . $threadNumberOn ."\n";
-            while($row1 = $result->fetch_assoc()){
-
-                $thread_id = $row1['id'];
-                $parentThread = $row['threadParentID'];
-                if(in_array($parentThread,$threadPresent))
-                {
-                    continue;
-                }
-
-                //echo " thread_id" . $thread_id;
-                // if($thread_id != $threadNumberOn)
-                // {
-                //     //echo $thread_id;
-                //     //echo "hi";
-                //     echo $threadNumberOn;
-                //     continue;
-                // }
-                // else{
-                 // echo $thread_id;
-                 // echo "parent" .$parentThread;
-                if($thread_id == $parentThread)
-                {
-                    $threadPresent[] = $parentThread;
-                    echo '<tr>';
+          $active = '';
+          if ($row['active'] == 0)
+          {
+            $active = "Closed";
+          }
+          else
+          {
+            $active = "Active";
+          }
+            $thread_id = $row['id'];
                 echo '<td class="leftpart">';
-                    echo "<h3><a href=\"posts.php?thread='$thread_id'\">" . $row1['title'] . "</a></h3>" . $row1['creatorID'] ;
+                    echo '<h3><a href="posts.php?thread=' . $thread_id . '">' . $row['title'] . '</a></h3>By: <b>' . $row['creatorID'] . '</b>
+                    &nbsp&nbsp&nbsp&nbspCreated on:<b> ' . $row['dateOfCreation'] . '</b>&nbsp&nbsp&nbsp&nbsp'.$active.'';
                 echo '</td>';
                 echo '<td class="rightpart">';
-                echo "<h3><a href=\"posts.php?thread='$thread_id'\">" . $row['creatorID'] . "</a></h3>" .$row['dateOfCreation'] ;
-                            //echo "<a href=\"posts.php?id=''>""".$row['creatorID'] .  "User</a> at 10-10" . $row['dateOfCreation'];
+                $latest_post_result = $mysqli->query("SELECT creatorID, dateOfCreation FROM post WHERE threadParentID = '" . $row['id'] . "' ORDER BY dateOfCreation DESC LIMIT 1");
+                if ($latest_post_result)
+                {
+                  if ($latest_post_result->num_rows != 0)
+                  {
+                    while($ltp_row = $latest_post_result->fetch_assoc())
+                    {
+                    echo '<b>' . $ltp_row['creatorID'] . '</b> at <b>' . $ltp_row['dateOfCreation'] . '</b>';
+                    }
+                    echo '</td>';
+                  }
+                  else
+                  {
+                    echo 'No replies.';
+                  }
+                }
+                else
+                {
+                  echo mysqli_error($mysqli);
+                }
                 echo '</td>';
             echo '</tr>';
-        }
-
-            //break;
-        // }
-
-                
-            //$postsParentsID = $row['threadParentID']
-            
-
-            }
-            mysqli_data_seek($result,0);
-            
         }
     }
 }
