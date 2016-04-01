@@ -42,9 +42,10 @@ else {
 
         if(isset($_POST['user_email']))
         {
-             if(strlen($_POST['user_email']) != 15){
+            //@tcd.ie is 7 characters, so ensure theres more before it
+            if(strlen($_POST['user_email']) < 8){
                 $errors[] = 'The email must be 15 characters long.';
-               }
+            }
             else
             {
                //detect valid email through pattern, take username as well
