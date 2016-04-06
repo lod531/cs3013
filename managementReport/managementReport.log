@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.11)  22 MAR 2016 16:13
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.11)  6 APR 2016 18:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./mar21.tex
-(./mar21.tex
+**./managementReport.tex
+(./managementReport.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -31,8 +31,9 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enit@toks=\toks15
 \enit@inbox=\box26
 \enitdp@description=\count87
-) (./mar21.aux)
-\openout1 = `mar21.aux'.
+)
+(./managementReport.aux)
+\openout1 = `managementReport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
 LaTeX Font Info:    ... okay on input line 4.
@@ -50,26 +51,25 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <14.4> on input line 7.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 7.
+ [1
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./mar21.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] (./managementRepor
+t.aux) ) 
 Here is how much of TeX's memory you used:
- 502 strings out of 493304
- 7109 string characters out of 6139871
- 59929 words of memory out of 5000000
- 4038 multiletter control sequences out of 15000+600000
- 5756 words of font info for 21 fonts, out of 8000000 for 9000
+ 493 strings out of 493304
+ 7055 string characters out of 6139871
+ 61929 words of memory out of 5000000
+ 4029 multiletter control sequences out of 15000+600000
+ 6063 words of font info for 22 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 22i,6n,19p,159b,252s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on mar21.pdf (2 pages, 41532 bytes).
+ 22i,6n,19p,170b,190s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on managementReport.pdf (3 pages, 47493 bytes).
 PDF statistics:
- 23 PDF objects out of 1000 (max. 8388607)
- 15 compressed objects within 1 object stream
+ 26 PDF objects out of 1000 (max. 8388607)
+ 17 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
